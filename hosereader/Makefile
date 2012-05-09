@@ -1,6 +1,6 @@
 CC = cc
-CPPFLAGS = -g -O0 -Wall -I/home/ubuntu/credis-0.2.3
-LDFLAGS = -lcurl /home/ubuntu/credis-0.2.3/libcredis.a
+CPPFLAGS = -g -O0 -Wall -I../credis-0.2.3
+LDFLAGS = -lcurl ../credis-0.2.3/libcredis.a
 
 all: hosereader
 

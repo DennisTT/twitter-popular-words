@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include "credis.h"
 
-#define TWITTER_STREAM "https://@stream.twitter.com/1/statuses/sample.json"
+#define TWITTER_STREAM "https://stream.twitter.com/1/statuses/sample.json"
 #define DEFAULT_REDIS_HOST "localhost"
 #define DEFAULT_REDIS_PORT 6379
 #define REDIS_QUEUE_KEY "tweetqueue"
