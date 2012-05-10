@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "credis.h"
+#include "hiredis.h"
 
 #define TWITTER_STREAM "https://stream.twitter.com/1/statuses/sample.json"
 #define DEFAULT_REDIS_HOST "localhost"
@@ -24,7 +24,7 @@ int redisPort = DEFAULT_REDIS_PORT;
 char* buffer;
 char* twitterUsername = DEFAULT_TWITTER_USERNAME;
 char* twitterPassword = DEFAULT_TWITTER_PASSWORD;
-REDIS rh;
+redisContext *rh;
 
 size_t parseHose( void *ptr, size_t size, size_t nmemb, void *userdata)
 {
@@ -91,7 +91,7 @@ size_t parseHose( void *ptr, size_t size, size_t nmemb, void *userdata)
 
 		printf("Tweet: %s\n", tweet);
 
-		credis_rpush(rh, REDIS_QUEUE_KEY, tweet);
+		redisCommand(rh, "RPUSH %s %s", REDIS_QUEUE_KEY, tweet);
 
 		free(tweet);
 		start = loc+1;
@@ -154,10 +154,11 @@ int main( int argc, char *argv[] )
 
 	// Setup connection to Redis
 	printf("Connecting to Redis host at %s:%d\n", redisHost, redisPort);
-	rh = credis_connect(redisHost, redisPort, 2000);
-	if(!rh)
+	rh = redisConnect(redisHost, redisPort);
+	if(rh->err)
 	{
 		printf("Could not connect to Redis host at %s:%d\n", redisHost, redisPort);
+		printf("Error: %s\n", rh->errstr);
 		return -1;
 	}
 
