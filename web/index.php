@@ -3,7 +3,7 @@ require_once './lib/Predis.php';
 
 // Connect to Redis
 $redis = new Predis\Client(array(
-        'host' => 'ec2-23-20-106-179.compute-1.amazonaws.com',
+        'host' => 'localhost',
         'port' => 6379,
 ));
 
